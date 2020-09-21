@@ -1,5 +1,7 @@
 version: '3'
 services:
+  environment: 
+    - BIG_BUCKET=1
   poll:
     build: ./poll/.
     ports: 
@@ -27,12 +29,16 @@ services:
         - result-tier
         - back-tier
   result:
+    environment: 
+      - DOUBLE_DOWN=1
     build: ./result/.
     ports: 
         - "5001:80"
     networks:
         - result-tier
   worker:
+    environment:
+      - TENDER_MIAM=1
     build: ./worker/.
     networks: 
         - back-tier
