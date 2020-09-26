@@ -1,14 +1,15 @@
 version: '3'
 services:
-  environment: 
-    - BIG_BUCKET=1
   poll:
+    environment: 
+        - BIG_BUCKET=1
     build: ./poll/.
     ports: 
-      - "5000:80"
+        - "5000:80"
     networks: 
         - poll-tier
   redis:
+    restart: always
     image: redis:alpine
     ports: 
         - "6379:6379"
@@ -16,6 +17,7 @@ services:
         - poll-tier
         - back-tier
   db:
+    restart: always
     image: postgres
     environment:
         - DATABASE_HOST=127.0.0.1
@@ -29,6 +31,7 @@ services:
         - result-tier
         - back-tier
   result:
+    restart: always
     environment: 
       - DOUBLE_DOWN=1
     build: ./result/.
@@ -37,6 +40,7 @@ services:
     networks:
         - result-tier
   worker:
+    restart: always
     environment:
       - TENDER_MIAM=1
     build: ./worker/.
