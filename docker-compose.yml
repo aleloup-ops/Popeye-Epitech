@@ -1,6 +1,7 @@
 version: '3'
 services:
   poll:
+    restart: always
     environment: 
         - POLL_VAR=1
     build: ./poll/.
